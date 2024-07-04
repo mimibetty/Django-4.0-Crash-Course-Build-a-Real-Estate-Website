@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <script>
+        function loadListings() {
+            fetch('/listing_test/')
+                .then(response => response.json())
+                .then(data => {
+                    const listingsContainer = document.getElementById('listings-container');
+                    listingsContainer.innerHTML = ''; // Xóa các danh sách hiện tại
+                    
+                    data.listings.forEach(listing => {
+                        const listingDiv = document.createElement('div');
+                        listingDiv.innerHTML = `
+                            <h3>${listing.title}</h3>
+                            <p>Price: $${listing.price}</p>
+                            <p>Bedrooms: ${listing.num_bedrooms}</p>
+                            <p>Bathrooms: ${listing.num_bathrooms}</p>
+                            <p>Square Footage: ${listing.square_footage} sq ft</p>
+                            <p>Address: ${listing.address}</p>
+                        `;
+                        listingsContainer.appendChild(listingDiv);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function addListing(event) {
+            event.preventDefault(); // Ngăn chặn form submit mặc định
+
+            const formData = new FormData(document.getElementById('listing-form'));
+            const data = {
+                title: formData.get('title'),
+                price: formData.get('price'),
+                num_bedrooms: formData.get('num_bedrooms'),
+                num_bathrooms: formData.get('num_bathrooms'),
+                square_footage: formData.get('square_footage'),
+                address: formData.get('address')
+            };
+
+            fetch('/add_listing_test/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                } else if (data.error) {
+                    alert(data.error);
+                }
+                loadListings(); // Load lại danh sách sau khi thêm
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <button onclick="loadListings()">Load Listings</button>
+    <div id="listings-container"></div>
+
+    <h2>Add New Listing</h2>
+    <form id="listing-form" onsubmit="addListing(event)">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required><br>
+        <label for="num_bedrooms">Bedrooms:</label>
+        <input type="number" id="num_bedrooms" name="num_bedrooms" required><br>
+        <label for="num_bathrooms">Bathrooms:</label>
+        <input type="number" id="num_bathrooms" name="num_bathrooms" required><br>
+        <label for="square_footage">Square Footage:</label>
+        <input type="number" id="square_footage" name="square_footage" required><br>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required><br>
+        <button type="submit">Add Listing</button>
+    </form>
+</body>
+</html>

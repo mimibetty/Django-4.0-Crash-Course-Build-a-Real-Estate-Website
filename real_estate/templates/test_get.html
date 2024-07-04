@@ -1,0 +1,37 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <script>
+        function loadListings() {
+            fetch('/listing_test/')
+                .then(response => response.json())
+                .then(data => {
+                    const listingsContainer = document.getElementById('listings-containerr');
+                    listingsContainer.innerHTML = ''; // Clear previous listings
+                    
+                    data.listings.forEach(listing => {
+                        const listingDiv = document.createElement('div');
+                        listingDiv.innerHTML = `
+                            <h3>${listing.title}</h3>
+                            <p>Price: $${listing.price}</p>
+                            <p>Bedrooms: ${listing.num_bedrooms}</p>
+                            <p>Bathrooms: ${listing.num_bathrooms}</p>
+                            <p>Square Footage: ${listing.square_footage} sq ft</p>
+                            <p>Address: ${listing.address}</p>
+                        `;
+                        listingsContainer.appendChild(listingDiv);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <button onclick="loadListings()">Load Listings</button>
+    <div id="listings-containerr"></div>
+</body>
+</html>

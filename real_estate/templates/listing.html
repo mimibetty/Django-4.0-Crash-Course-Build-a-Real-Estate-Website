@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="px-3 py-2 bg-gray-100 rounded-sm">
+    <h3 class="text-3xl text-gray-900">{{ listing.title }}</h3>
+    <p class="text-gray-900">${{ listing.price }}</p>
+    <p class="text-gray-600 text-sm">{{ listing.address }}</p>
+    <div class="w-full h-64 mt-2 bg-gray-200 flex items-center justify-center overflow-hidden">
+        <img src="{{ listing.image.url }}" alt="{{ listing.title }}" class="max-w-full max-h-full object-contain">
+    </div>
+
+    {% if request.user.is_staff %}
+    <div class="mt-5 py-5 border-t border-gray-200">
+        <a href="/listing_update/{{ listing.id }}/" class="text-blue-500">
+            Edit
+        </a>
+        <a href="/listing_delete/{{ listing.id }}/" class="ml-3 text-blue-500">
+            Delete
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock content %}
+

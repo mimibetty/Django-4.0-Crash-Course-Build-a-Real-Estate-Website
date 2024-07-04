@@ -1,3 +1,15 @@
-{% for listing in listings  %}
- <p> {{listing.title}} </p>
-{% endfor %}
+{% extends "base.html" %}
+
+ {% block content %}
+ <a href="/listing_create/" class="text-blue-500">Create a new Listing</a>
+ <h1 class="mt-2 text-4xl text-gray-900">Listings</h1>
+ {% for listing in listings %}
+ <div class="mt-2 px-3 py-2 bg-gray-100 rounded-sm">
+     <h3 class="text-3xl text-gray-900">{{ listing.title }}</h3>
+     <div class="w-full h-64 mt-2 bg-gray-200 flex items-center justify-center overflow-hidden">
+         <img src="{{ listing.image.url }}" alt="{{ listing.title }}" class="max-w-full max-h-full object-contain">
+     </div>
+     <a href="/listings/{{ listing.id }}/" class="text-blue-500">View details</a>
+ </div>
+ {% endfor %}
+ {% endblock content %}
