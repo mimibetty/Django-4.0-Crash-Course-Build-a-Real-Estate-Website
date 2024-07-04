@@ -10,7 +10,8 @@ from listings.views import (
     listing_create,
     listing_update,
     listing_delete,
-    
+    search,
+
     listing_test,
     test_get,
     add_listing_test
@@ -22,6 +23,8 @@ urlpatterns = [
     path('listing_create/', listing_create),
     path('listing_update/<int:pk>/', listing_update),
     path('listing_delete/<int:pk>/', listing_delete),
+    path('search/', search, name="search"), 
+
 
     path('listing_test/', listing_test, name='listing_test'),
     path('test_get/', test_get, name='test_get'),

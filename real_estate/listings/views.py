@@ -57,6 +57,12 @@ def listing_delete(request, pk):
     listing.delete()
     return redirect("/")
 
+def search(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
+        keys = Listing.objects.filter(title__icontains = searched)
+
+    return render(request, 'search.html',{'keys': keys,'searched': searched})
 
 
 

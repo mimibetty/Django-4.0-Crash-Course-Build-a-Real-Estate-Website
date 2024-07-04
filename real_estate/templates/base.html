@@ -13,9 +13,16 @@
     </head>
     <body>
         <div class = "mx-auto max-w-5xl px-4 py-4">
-        </div>
-        {% block content %} 
-        {% endblock content %}
+            <form class="d-flex" role="search" method = POST action = '{% url "search" %}'>
+                {% csrf_token %}
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name = "searched">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            
+            {% block content %} 
+            {% endblock content %}
 
+        </div>
+        
     </body>
 </html>
